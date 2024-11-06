@@ -20,7 +20,6 @@ import java.util.List;
 public class EmpleadoController {
 
     @Autowired
-
     public EmpleadoService empleadoService;
 
     @GetMapping("")
@@ -29,3 +28,4 @@ public class EmpleadoController {
         return ResponseEntity.ok(empleados);
     }
 }
+
