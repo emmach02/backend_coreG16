@@ -1,21 +1,24 @@
 package com.backend3K6_2024.backendG16.Marcas.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity(name = "MARCAS")
+@Entity
 @AllArgsConstructor
+@Builder
+@Getter
+@Setter
 @NoArgsConstructor
+@Table(name = "MARCAS")
 
 public class Marca {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Integer idMarca;
 
-    @Column(name = "nombre")
+    @Column(name = "NOMBRE")
     private String nombre;
 
 }
