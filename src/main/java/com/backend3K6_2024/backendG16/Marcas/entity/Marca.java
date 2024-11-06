@@ -1,7 +1,10 @@
 package com.backend3K6_2024.backendG16.Marcas.entity;
 
+import com.backend3K6_2024.backendG16.Modelos.entity.Modelo;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -21,4 +24,6 @@ public class Marca {
     @Column(name = "nombre")
     private String nombre;
 
+    @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL)
+    private List<Modelo> modelos;
 }
