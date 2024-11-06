@@ -1,6 +1,4 @@
 package com.backend3K6_2024.backendG16.Modelos.entity;
-
-public class Modelo {
 import com.backend3K6_2024.backendG16.Marcas.entity.Marca;
 import jakarta.persistence.*;
 import lombok.*;
