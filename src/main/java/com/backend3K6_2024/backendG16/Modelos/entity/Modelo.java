@@ -1,5 +1,6 @@
 package com.backend3K6_2024.backendG16.Modelos.entity;
 import com.backend3K6_2024.backendG16.Marcas.entity.Marca;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class Modelo {
 
     @ManyToOne
     @JoinColumn(name = "id_marca")
+    @JsonBackReference
     private Marca marca;
 
     @Column(name = "descripcion")

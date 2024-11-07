@@ -25,7 +25,6 @@ public class Interesado {
 
     @Column(name = "ID")
     private Integer id;
-
     @Column(name = "TIPO_DOCUMENTO")
     private String tipoDocumento;
     @Column(name = "DOCUMENTO")
