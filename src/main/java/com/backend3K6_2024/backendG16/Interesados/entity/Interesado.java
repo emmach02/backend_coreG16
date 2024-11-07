@@ -1,9 +1,8 @@
 package com.backend3K6_2024.backendG16.Interesados.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +10,9 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Getter
+@Setter
 
 public class Interesado {
 
@@ -22,7 +24,7 @@ public class Interesado {
             initialValue = 1, allocationSize = 1)
 
     @Column(name = "ID")
-    private long id;
+    private Integer id;
 
     @Column(name = "TIPO_DOCUMENTO")
     private String tipoDocumento;
