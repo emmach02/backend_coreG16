@@ -4,28 +4,30 @@ import com.backend3K6_2024.backendG16.Interesados.DTO.InteresadoDTO;
 import com.backend3K6_2024.backendG16.Interesados.entity.Interesado;
 
 public class InteresadoMapper {
+
     public static InteresadoDTO toDTO(Interesado interesado){
 
         return InteresadoDTO.builder()
                 .id(interesado.getId())
-                .tipo_documento(interesado.getTipo_documento())
+                .tipoDocumento(interesado.getTipoDocumento())
                 .nombre(interesado.getNombre())
                 .apellido(interesado.getApellido())
                 .restringido(interesado.getRestringido())
-                .nro_licencia(interesado.getNro_licencia())
-                .fecha_vencimiento_licencia(interesado.getFecha_vencimiento_licencia())
-                .build;
+                .nroLicencia(interesado.getNroLicencia())
+                .fechaVencimientoLicencia(interesado.getFechaVencimientoLicencia())
+                .build();
     }
-    public static Intersado toEntity(InteresadoDTO interesadoDTO){
+
+    public static Interesado toEntity(InteresadoDTO interesadoDTO){
 
         return Interesado.builder()
                 .id(interesadoDTO.getId())
-                .tipo_documento(interesadoDTO.getTipo_documento())
+                .tipoDocumento(interesadoDTO.getTipoDocumento())
                 .nombre(interesadoDTO.getNombre())
                 .apellido(interesadoDTO.getApellido())
                 .restringido(interesadoDTO.getRestringido())
-                .nro_licencia(interesadoDTO.getNro_licencia())
-                .fecha_vencimiento_licencia(interesadoDTO.getFecha_vencimiento_licencia())
-                .build;
+                .nroLicencia(interesadoDTO.getNroLicencia())
+                .fechaVencimientoLicencia(interesadoDTO.getFechaVencimientoLicencia())
+                .build();
     }
 }
