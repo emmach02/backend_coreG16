@@ -15,3 +15,4 @@ create table NotificacionPromocion(
       foreign key (id_modelo) references Modelos(id),
       foreign key (id_interesado) references Interesados(id)
 )
+

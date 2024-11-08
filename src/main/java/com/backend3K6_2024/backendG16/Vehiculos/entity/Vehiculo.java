@@ -1,12 +1,20 @@
 package com.backend3K6_2024.backendG16.Vehiculos.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.TableGenerator;
+import com.backend3K6_2024.backendG16.Modelos.entity.Modelo;
+import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+
+@Entity
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vehiculo {
     @Id
     @GeneratedValue(generator = "VEHICULOS")
@@ -22,6 +30,10 @@ public class Vehiculo {
     private String patente;
 
     @ManyToOne
-    @JoinColumn(name = "ID_MARCA", referencedColumnName = "ID")
-    private Modelos modelos;
+    @JoinColumn(name = "ID_MODELO", referencedColumnName = "ID")
+    private Modelo modelo;
+
+    @OneToMany(mappedBy = "vehiculo")
+    private List<Prueba> pruebas;
+
 }

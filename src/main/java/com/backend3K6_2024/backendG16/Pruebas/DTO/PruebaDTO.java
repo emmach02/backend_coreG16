@@ -18,11 +18,11 @@ import java.util.Date;
 @ToString
 
 public class PruebaDTO {
-    private  int idPrueba;
-    private Vehiculo vehiculo;
-    private Interesado interesado;
-    private Empleado empleado;
-    private Date fechaHoraInicio;
-    private Date fechaHoraFin;
-    private String comentarios;
+    Integer idPrueba;
+    Vehiculo vehiculo;
+    Interesado interesado;
+    Empleado empleado;
+    Date fechaHoraInicio;
+    Date fechaHoraFin;
+    String comentarios;
 }

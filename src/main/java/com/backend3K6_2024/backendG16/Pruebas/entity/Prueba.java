@@ -9,16 +9,16 @@ import lombok.*;
 
 import java.util.Date;
 
-@Entity
+@Entity(name = "PRUEBAS")
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "pruebas")
+@Table(name = "Pruebas")
 public class Prueba {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int idPrueba;
 

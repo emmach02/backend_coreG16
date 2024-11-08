@@ -4,8 +4,8 @@ import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaDTO;
 import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 
 public class PruebaMapper {
-
     public static PruebaDTO toDTO(Prueba prueba) {
+
         return PruebaDTO.builder()
                 .idPrueba(prueba.getIdPrueba())
                 .vehiculo(prueba.getVehiculo())
@@ -17,15 +17,15 @@ public class PruebaMapper {
                 .build();
     }
 
-    public static Prueba toEntity(PruebaDTO dto) {
+    public static Prueba toEntity(PruebaDTO pruebaDTO) {
     return Prueba.builder()
-            .idPrueba(dto.getIdPrueba())
-            .vehiculo(dto.getVehiculo())
-            .interesado(dto.getInteresado())
-            .empleado(dto.getEmpleado())
-            .fechaHoraInicio(dto.getFechaHoraInicio())
-            .fechaHoraFin(dto.getFechaHoraFin())
-            .comentarios(dto.getComentarios())
+            .idPrueba(pruebaDTO.getIdPrueba())
+            .vehiculo(pruebaDTO.getVehiculo())
+            .interesado(pruebaDTO.getInteresado())
+            .empleado(pruebaDTO.getEmpleado())
+            .fechaHoraInicio(pruebaDTO.getFechaHoraInicio())
+            .fechaHoraFin(pruebaDTO.getFechaHoraFin())
+            .comentarios(pruebaDTO.getComentarios())
             .build();
     }
 }
