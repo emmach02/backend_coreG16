@@ -1,7 +1,10 @@
 package com.backend3K6_2024.backendG16.Empleados.entity;
 
+import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "EMPLEADOS")
 @AllArgsConstructor
@@ -24,6 +27,9 @@ public class Empleado {
 
     @Column(name = "telefono_contacto")
     private String telefonoContacto;
+
+    @OneToMany(mappedBy = "empleado")
+    private List<Prueba> pruebas;
 
 
 }

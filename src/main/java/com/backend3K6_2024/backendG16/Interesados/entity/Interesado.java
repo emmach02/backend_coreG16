@@ -1,10 +1,12 @@
 package com.backend3K6_2024.backendG16.Interesados.entity;
 
+import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name="INTERESADOS")
 @Data
@@ -40,5 +42,8 @@ public class Interesado {
     private String nroLicencia;
     @Column(name = "FECHA_VENCIMIENTO_LICENCIA")
     private LocalDateTime fechaVencimientoLicencia;
+
+    @OneToMany(mappedBy = "interesado")
+    private List<Prueba> pruebas;
 
 }
