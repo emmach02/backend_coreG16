@@ -32,7 +32,7 @@ public class Interesado {
     @Column(name = "apellido")
     private String apellido;
     @Column(name = "restringido")
-    private String restringido;
+    private Boolean restringido;
     @Column (name = "nro_licencia")
     private String nroLicencia;
     @Column(name = "fecha_vencimiento_licencia")

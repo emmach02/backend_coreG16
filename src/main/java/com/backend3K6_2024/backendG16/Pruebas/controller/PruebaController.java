@@ -1,7 +1,9 @@
 package com.backend3K6_2024.backendG16.Pruebas.controller;
 
+import com.backend3K6_2024.backendG16.Posiciones.DTO.PosicionDTO;
 import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaDTO;
 import com.backend3K6_2024.backendG16.Pruebas.service.PruebaService;
+import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,16 @@ public class PruebaController {
         return ResponseEntity.ok(pruebas);
     }
 
-    @PostMapping("")
-    public ResponseEntity<PruebaDTO> createPrueba(@RequestBody PruebaDTO pruebaDTO) {
-        PruebaDTO savedPrueba = pruebaService.addPrueba(pruebaDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPrueba);
+    @PostMapping("/crearPrueba")
+    public ResponseEntity<PruebaDTO> post(
+            @RequestParam Integer interesadoId,
+            @RequestParam Integer vehiculoId,
+            @RequestParam Integer empleadoId){
+        try {
+            PruebaDTO pruebaDTO1 = pruebaService.create(interesadoId, vehiculoId, empleadoId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(pruebaDTO1);
+        } catch (BadRequestException e){
+            return ResponseEntity.badRequest().header("ERROR_MSG", e.getMessage()).build();
+        }
     }
 }

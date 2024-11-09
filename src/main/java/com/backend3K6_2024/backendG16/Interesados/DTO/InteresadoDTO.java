@@ -19,7 +19,7 @@ public class InteresadoDTO {
     private String documento;
     private String nombre;
     private String apellido;
-    private String restringido;
+    private Boolean restringido;
     private String nroLicencia;
     private LocalDateTime fechaVencimientoLicencia;
 }

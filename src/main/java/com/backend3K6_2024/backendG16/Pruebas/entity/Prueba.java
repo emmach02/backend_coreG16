@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "Pruebas")
 public class Prueba {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer idPrueba;
 
