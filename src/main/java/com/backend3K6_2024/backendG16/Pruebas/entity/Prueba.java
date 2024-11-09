@@ -1,13 +1,12 @@
 package com.backend3K6_2024.backendG16.Pruebas.entity;
 
-import com.backend3K6_2024.backendG16.*;
 import com.backend3K6_2024.backendG16.Empleados.entity.Empleado;
 import com.backend3K6_2024.backendG16.Interesados.entity.Interesado;
 import com.backend3K6_2024.backendG16.Vehiculos.entity.Vehiculo;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity(name = "PRUEBAS")
 @Builder
@@ -20,7 +19,7 @@ public class Prueba {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int idPrueba;
+    private Integer idPrueba;
 
     @ManyToOne
     @JoinColumn(name = "id_vehiculo")
@@ -35,10 +34,10 @@ public class Prueba {
     private Empleado empleado;
 
     @Column(name = "fecha_hora_inicio")
-    private Date fechaHoraInicio;
+    private LocalDateTime fechaHoraInicio;
 
     @Column(name = "fecha_hora_fin")
-    private Date fechaHoraFin;
+    private LocalDateTime fechaHoraFin;
 
     @Column(name = "comentarios")
     private String comentarios;

@@ -24,6 +24,4 @@ public class Marca {
     @Column(name = "nombre")
     private String nombre;
 
-    @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL)
-    private List<Modelo> modelos;
 }

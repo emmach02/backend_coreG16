@@ -19,31 +19,22 @@ import java.util.List;
 public class Interesado {
 
     @Id
-    @GeneratedValue(generator = "INTERESADOS")
-    @TableGenerator(name = "INTERESADOS", table = "sqlite_sequence",
-            pkColumnName = "name", valueColumnName = "seq",
-            pkColumnValue = "INTERESADOS",
-            initialValue = 1, allocationSize = 1)
-
-    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "TIPO_DOCUMENTO")
+    @Column(name = "tipo_documento")
     private String tipoDocumento;
-    @Column(name = "DOCUMENTO")
+    @Column(name = "documento")
     private String documento;
-    @Column(name = "NOMBRE")
+    @Column(name = "nombre")
     private String nombre;
-    @Column(name = "APELLIDO")
+    @Column(name = "apellido")
     private String apellido;
-    @Column(name = "RESTRINGIDO")
+    @Column(name = "restringido")
     private String restringido;
-    @Column (name = "NRO_LICENCIA")
+    @Column (name = "nro_licencia")
     private String nroLicencia;
-    @Column(name = "FECHA_VENCIMIENTO_LICENCIA")
+    @Column(name = "fecha_vencimiento_licencia")
     private LocalDateTime fechaVencimientoLicencia;
-
-    @OneToMany(mappedBy = "interesado")
-    private List<Prueba> pruebas;
-
 }

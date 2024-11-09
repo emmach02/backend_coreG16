@@ -11,7 +11,7 @@ import com.backend3K6_2024.backendG16.Vehiculos.service.VehiculoService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Vehiculos")
+@RequestMapping("/api/vehiculos")
 public class VehiculoController {
 
     @Autowired

@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @ToString
 
 public class VehiculoDTO {
-    private long id;
+    private Integer id;
     private String patente;
     private Modelo modelo;
 

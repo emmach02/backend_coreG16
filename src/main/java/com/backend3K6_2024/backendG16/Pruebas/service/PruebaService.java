@@ -18,7 +18,9 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
+
 public class PruebaService {
+
     @Autowired
     private PruebaRepository pruebaRepository;
 

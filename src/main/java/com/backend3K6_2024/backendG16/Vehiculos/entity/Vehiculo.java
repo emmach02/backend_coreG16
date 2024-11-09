@@ -2,6 +2,7 @@ package com.backend3K6_2024.backendG16.Vehiculos.entity;
 
 import com.backend3K6_2024.backendG16.Modelos.entity.Modelo;
 import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,25 +16,23 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "vehiculos")
+
 public class Vehiculo {
     @Id
-    @GeneratedValue(generator = "VEHICULOS")
-    @TableGenerator(name = "VEHICULOS", table = "sqlite_sequence",
-            pkColumnName = "name", valueColumnName = "seq",
-            pkColumnValue = "VEHICULOS",
-            initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
-    @Column(name = "ID")
-    private long id;
-
-    @Column(name = "PATENTE")
+    @Column(name = "patente")
     private String patente;
 
     @ManyToOne
-    @JoinColumn(name = "ID_MODELO", referencedColumnName = "ID")
+    @JoinColumn(name = "id_modelo", referencedColumnName = "id")
     private Modelo modelo;
 
     @OneToMany(mappedBy = "vehiculo")
+    @JsonBackReference
     private List<Prueba> pruebas;
 
 }

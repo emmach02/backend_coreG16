@@ -27,9 +27,4 @@ public class Empleado {
 
     @Column(name = "telefono_contacto")
     private String telefonoContacto;
-
-    @OneToMany(mappedBy = "empleado")
-    private List<Prueba> pruebas;
-
-
 }

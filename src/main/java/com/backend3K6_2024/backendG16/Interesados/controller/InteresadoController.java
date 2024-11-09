@@ -1,4 +1,4 @@
-package com.backend3K6_2024.backendG16.Interesados.entities.Controller;
+package com.backend3K6_2024.backendG16.Interesados.controller;
 
 import com.backend3K6_2024.backendG16.Interesados.service.InteresadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import com.backend3K6_2024.backendG16.Interesados.DTO.InteresadoDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Interesados")
+@RequestMapping("/api/interesados")
 public class InteresadoController {
     @Autowired
     public InteresadoService interesadoService;

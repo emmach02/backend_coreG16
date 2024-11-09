@@ -22,5 +22,4 @@ public class InteresadoDTO {
     private String restringido;
     private String nroLicencia;
     private LocalDateTime fechaVencimientoLicencia;
-
 }
