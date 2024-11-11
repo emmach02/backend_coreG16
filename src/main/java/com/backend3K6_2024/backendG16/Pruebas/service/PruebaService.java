@@ -50,6 +50,7 @@ public class PruebaService {
     }
 
         //Get pruebas en curso
+    //Resuelve el punto B. (por el momento, ver que significa "en un momento dado")
     public List<PruebaDTO> getPruebasEnCurso(){
         List<Prueba> pruebas = pruebaRepository.findByFechaHoraFinIsNull();
         return pruebas.stream()
@@ -58,6 +59,7 @@ public class PruebaService {
     }
 
     //-METODOS POST-
+    //Resuelve el punto 1A
     @Transactional
     public PruebaDTO create(Integer interesadoId, Integer vehiculoId, Integer empleadoId) throws BadRequestException {
         //Traemos los vehiculos y empleados correspondientes, si no arroja excepcion
@@ -105,6 +107,7 @@ public class PruebaService {
     }
 
     // Métodos PUT
+    //Resulve el punto 1C
     @Transactional
     public PruebaDTO finalizarPrueba(Integer pruebaId, String comentario) throws NotFoundException {
         Optional<Prueba> prueba = pruebaRepository.findById(pruebaId);
