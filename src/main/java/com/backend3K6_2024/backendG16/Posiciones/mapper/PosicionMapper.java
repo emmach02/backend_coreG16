@@ -11,7 +11,6 @@ public class PosicionMapper {
         return PosicionDTO.builder()
                 .idPosicion(posicion.getIdPosicion())
                 .fechaHora(posicion.getFechaHora())
-                .vehiculo(posicion.getVehiculo())
                 .latitud(posicion.getLatitud())
                 .longitud(posicion.getLongitud())
                 .build();
@@ -22,7 +21,6 @@ public class PosicionMapper {
         return Posicion.builder()
                 .idPosicion(posicionDTO.getIdPosicion())
                 .fechaHora(posicionDTO.getFechaHora())
-                .vehiculo(posicionDTO.getVehiculo())
                 .latitud(posicionDTO.getLatitud())
                 .longitud(posicionDTO.getLongitud())
                 .build();

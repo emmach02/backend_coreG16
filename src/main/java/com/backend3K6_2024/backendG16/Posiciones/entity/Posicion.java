@@ -22,9 +22,8 @@ public class Posicion {
     @Column(name = "id")
     private Integer idPosicion;
 
-    @ManyToOne
     @JoinColumn(name = "id_vehiculo")
-    private Vehiculo vehiculo;
+    private Integer idVehiculo;
 
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;

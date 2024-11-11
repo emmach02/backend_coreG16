@@ -32,7 +32,7 @@ public class Vehiculo {
     @JoinColumn(name = "id_modelo", referencedColumnName = "id")
     private Modelo modelo;
 
-    @OneToMany(mappedBy = "vehiculo")
+    @OneToMany(mappedBy = "idVehiculo")
     @JsonBackReference
     private List<Posicion> posiciones;
 }

@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @ToString
 public class PosicionDTO {
     private Integer idPosicion;
-    private Vehiculo vehiculo;
     private LocalDateTime fechaHora;
     private Double latitud;
     private Double longitud;
