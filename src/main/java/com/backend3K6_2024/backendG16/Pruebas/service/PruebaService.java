@@ -13,6 +13,7 @@ import com.backend3K6_2024.backendG16.Vehiculos.repository.VehiculoRepository;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +49,16 @@ public class PruebaService {
                 .toList();
     }
 
+        //Get pruebas en curso
+    public List<PruebaDTO> getPruebasEnCurso(){
+        List<Prueba> pruebas = pruebaRepository.findByFechaHoraFinIsNull();
+        return pruebas.stream()
+                .map(PruebaMapper::toDTO)
+                .toList();
+    }
+
     //-METODOS POST-
+    @Transactional
     public PruebaDTO create(Integer interesadoId, Integer vehiculoId, Integer empleadoId) throws BadRequestException {
         //Traemos los vehiculos y empleados correspondientes, si no arroja excepcion
         Optional<Vehiculo> vehiculo = vehiculoRepository.findById(vehiculoId);
@@ -56,7 +67,7 @@ public class PruebaService {
             throw new BadRequestException("El empleado no existe");
         }
         if(vehiculo.isEmpty()) {
-            throw new BadRequestException("El empleado no existe");
+            throw new BadRequestException("El vehiculo no existe");
         }
 
         //Verificado si existe el interesado, si existe verificamos licencia y si puede probar autos
@@ -91,6 +102,20 @@ public class PruebaService {
         pruebaRepository.save(prueba);
         return PruebaMapper.toDTO(prueba);
 
+    }
+
+    // Métodos PUT
+    @Transactional
+    public PruebaDTO finalizarPrueba(Integer pruebaId, String comentario) throws NotFoundException {
+        Optional<Prueba> prueba = pruebaRepository.findById(pruebaId);
+        if(prueba.isEmpty()) {
+            throw new NotFoundException("No existe la prueba");
+        }
+        
+        prueba.get().setFechaHoraFin(LocalDateTime.now());
+        prueba.get().setComentarios(comentario);
+        Prueba pruebaGuardada = pruebaRepository.save(prueba.get());
+        return PruebaMapper.toDTO(pruebaGuardada);
     }
 
 }

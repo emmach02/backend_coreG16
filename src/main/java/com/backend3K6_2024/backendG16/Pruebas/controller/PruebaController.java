@@ -1,9 +1,12 @@
 package com.backend3K6_2024.backendG16.Pruebas.controller;
 
 import com.backend3K6_2024.backendG16.Posiciones.DTO.PosicionDTO;
+import com.backend3K6_2024.backendG16.Pruebas.DTO.ComentarioDTO;
 import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaDTO;
+import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import com.backend3K6_2024.backendG16.Pruebas.service.PruebaService;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
+import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,12 @@ public class PruebaController {
         return ResponseEntity.ok(pruebas);
     }
 
+    @GetMapping("/en-curso")
+    public ResponseEntity<List<PruebaDTO>> getEnCurso() {
+        List<PruebaDTO> pruebas = pruebaService.getPruebasEnCurso();
+        return ResponseEntity.ok(pruebas);
+    }
+
     @PostMapping("/crearPrueba")
     public ResponseEntity<PruebaDTO> post(
             @RequestParam Integer interesadoId,
@@ -36,5 +45,13 @@ public class PruebaController {
         } catch (BadRequestException e){
             return ResponseEntity.badRequest().header("ERROR_MSG", e.getMessage()).build();
         }
+    }
+
+    @PatchMapping("finalizar/{pruebaId}")
+    public ResponseEntity<PruebaDTO> finalizarPrueba(
+            @PathVariable Integer pruebaId, @RequestBody ComentarioDTO comentarioDTO) throws NotFoundException {
+        String comentario = comentarioDTO.getComentario();
+        PruebaDTO pruebaFinalizada = pruebaService.finalizarPrueba(pruebaId, comentario);
+        return ResponseEntity.ok(pruebaFinalizada);
     }
 }

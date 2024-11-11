@@ -11,6 +11,7 @@ public class VehiculoMapper {
                 .id(vehiculo.getId())
                 .patente(vehiculo.getPatente())
                 .modelo(vehiculo.getModelo())
+                .posiciones(vehiculo.getPosiciones())
                 .build();
     }
     public static Vehiculo toEntity(VehiculoDTO vehiculoDTO) {
@@ -18,6 +19,7 @@ public class VehiculoMapper {
                 .id(vehiculoDTO.getId())
                 .patente(vehiculoDTO.getPatente())
                 .modelo(vehiculoDTO.getModelo())
+                .posiciones(vehiculoDTO.getPosiciones())
                 .build();
     }
 }

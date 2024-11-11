@@ -1,6 +1,7 @@
 package com.backend3K6_2024.backendG16.Vehiculos.entity;
 
 import com.backend3K6_2024.backendG16.Modelos.entity.Modelo;
+import com.backend3K6_2024.backendG16.Posiciones.entity.Posicion;
 import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -33,6 +34,5 @@ public class Vehiculo {
 
     @OneToMany(mappedBy = "vehiculo")
     @JsonBackReference
-    private List<Prueba> pruebas;
-
+    private List<Posicion> posiciones;
 }
