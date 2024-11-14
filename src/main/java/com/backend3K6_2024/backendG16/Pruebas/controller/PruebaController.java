@@ -45,6 +45,7 @@ public class PruebaController {
 
     @PostMapping("/crearPrueba")
     public ResponseEntity<PruebaDTO> post(
+            //TODO a requestBody
             @RequestParam Integer interesadoId,
             @RequestParam Integer vehiculoId,
             @RequestParam Integer empleadoId){
