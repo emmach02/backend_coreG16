@@ -2,10 +2,7 @@ package com.backend3K6_2024.backendG16.Posiciones.service;
 
 import com.backend3K6_2024.backendG16.Interesados.entity.Interesado;
 import com.backend3K6_2024.backendG16.Interesados.repository.InteresadoRepository;
-import com.backend3K6_2024.backendG16.Posiciones.DTO.FechasDTO;
-import com.backend3K6_2024.backendG16.Posiciones.DTO.PosicionDTO;
-import com.backend3K6_2024.backendG16.Posiciones.DTO.PosicionesApiDTO;
-import com.backend3K6_2024.backendG16.Posiciones.DTO.ZonaRestringidaDTO;
+import com.backend3K6_2024.backendG16.Posiciones.DTO.*;
 import com.backend3K6_2024.backendG16.Posiciones.entity.Coordenadas;
 import com.backend3K6_2024.backendG16.Posiciones.entity.Posicion;
 import com.backend3K6_2024.backendG16.Posiciones.mapper.PosicionMapper;
@@ -60,6 +57,9 @@ public class PosicionService {
 
     @Value("${api_posiciones_url}")
     private String apiPosicionesUrl;
+
+    @Value("${notificaciones_url}")
+    private String notificacionesUrl;
 
     //Métodos GET
 
@@ -136,14 +136,33 @@ public class PosicionService {
                 //marcar al interesado como restringido
                 interesado.setRestringido(true);
                 interesadoRepository.save(interesado);
-                //TODO ENVIAR NOTIFICACION AL EMPLEADO QUE DICHO INTERESADO TUVO UN INCIDENTE
+                //TODO ENVIAR NOTIFICACION AL EMPLEADO QUE DICHO INTERESADO TUVO UN INCIDENTE - VAMOS A PROBAR
+                //Armo la notificación
+                String texto = "Se informó una incidente durante la prueba, exigir el retorno inmediato.";
+                NotificacionInfDTO notificacion = new NotificacionInfDTO(
+                        pruebaDTO.getIdPrueba(),
+                        LocalDateTime.now(),
+                        texto,
+                        pruebaDTO.getEmpleado().getTelefonoContacto());
+                enviarNotificacion(notificacion);
             }
         }
-
         return ResponseEntity.ok("OK");
     }
 
         //Funciones extras
+
+    //llamada al endopint de notificaciones del microservicio de notificaciones
+    public void enviarNotificacion(NotificacionInfDTO notificacion) {
+        //DEBUG
+        //System.out.println(notificacionesUrl);
+        try {
+            String response = restTemplate.postForObject(notificacionesUrl, notificacion, String.class);
+            System.out.println(response);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     //Servicio para verificar si el vehículo está o no en una posición restringida
     private Boolean verificarInfraccion(PosicionDTO posicionDTO) {

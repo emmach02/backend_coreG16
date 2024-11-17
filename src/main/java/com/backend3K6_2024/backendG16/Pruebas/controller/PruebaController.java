@@ -3,6 +3,7 @@ package com.backend3K6_2024.backendG16.Pruebas.controller;
 import com.backend3K6_2024.backendG16.Posiciones.DTO.PosicionDTO;
 import com.backend3K6_2024.backendG16.Pruebas.DTO.ComentarioDTO;
 import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaDTO;
+import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaRequestDTO;
 import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import com.backend3K6_2024.backendG16.Pruebas.service.PruebaService;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
@@ -46,11 +47,9 @@ public class PruebaController {
     @PostMapping("/crearPrueba")
     public ResponseEntity<PruebaDTO> post(
             //TODO a requestBody
-            @RequestParam Integer interesadoId,
-            @RequestParam Integer vehiculoId,
-            @RequestParam Integer empleadoId){
+            @RequestBody PruebaRequestDTO pruebaRequestDTO) {
         try {
-            PruebaDTO pruebaDTO1 = pruebaService.create(interesadoId, vehiculoId, empleadoId);
+            PruebaDTO pruebaDTO1 = pruebaService.create(pruebaRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(pruebaDTO1);
         } catch (BadRequestException e){
             return ResponseEntity.badRequest().header("ERROR_MSG", e.getMessage()).build();

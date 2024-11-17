@@ -7,6 +7,7 @@ import com.backend3K6_2024.backendG16.Interesados.repository.InteresadoRepositor
 import com.backend3K6_2024.backendG16.Posiciones.entity.Posicion;
 import com.backend3K6_2024.backendG16.Posiciones.repository.PosicionRepository;
 import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaDTO;
+import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaRequestDTO;
 import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import com.backend3K6_2024.backendG16.Pruebas.repository.PruebaRepository;
 import com.backend3K6_2024.backendG16.Pruebas.mapper.PruebaMapper;
@@ -75,10 +76,10 @@ public class PruebaService {
     //-METODOS POST-
     //Resuelve el punto 1A
     @Transactional
-    public PruebaDTO create(Integer interesadoId, Integer vehiculoId, Integer empleadoId) throws BadRequestException {
+    public PruebaDTO create(@RequestBody PruebaRequestDTO pruebaRequestDTO) throws BadRequestException {
         //Traemos los vehiculos y empleados correspondientes, si no arroja excepcion
-        Optional<Vehiculo> vehiculo = vehiculoRepository.findById(vehiculoId);
-        Optional<Empleado> empleado = empleadoRepository.findById(empleadoId);
+        Optional<Vehiculo> vehiculo = vehiculoRepository.findById(pruebaRequestDTO.getIdVehiculo());
+        Optional<Empleado> empleado = empleadoRepository.findById(pruebaRequestDTO.getIdEmpleado());
         if(empleado.isEmpty()) {
             throw new BadRequestException("El empleado no existe");
         }
@@ -87,7 +88,7 @@ public class PruebaService {
         }
 
         //Verificado si existe el interesado, si existe verificamos licencia y si puede probar autos
-        Interesado interesado = interesadoRepository.findById(interesadoId).get();
+        Interesado interesado = interesadoRepository.findById(pruebaRequestDTO.getIdInteresado()).get();
         if(interesado == null) {
             throw new BadRequestException("No existe el interesado");
         } else {
