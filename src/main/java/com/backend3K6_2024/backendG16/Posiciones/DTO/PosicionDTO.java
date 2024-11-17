@@ -13,8 +13,10 @@ import java.time.LocalDateTime;
 @Setter
 @Accessors(makeFinal = true)
 @ToString
+
 public class PosicionDTO {
     private Integer idPosicion;
+    private Integer idVehiculo;
     private LocalDateTime fechaHora;
     private Double latitud;
     private Double longitud;

@@ -10,6 +10,7 @@ public class PosicionMapper {
     public static PosicionDTO toDTO(Posicion posicion) {
         return PosicionDTO.builder()
                 .idPosicion(posicion.getIdPosicion())
+                .idVehiculo(posicion.getIdVehiculo())
                 .fechaHora(posicion.getFechaHora())
                 .latitud(posicion.getLatitud())
                 .longitud(posicion.getLongitud())
@@ -20,6 +21,7 @@ public class PosicionMapper {
 
         return Posicion.builder()
                 .idPosicion(posicionDTO.getIdPosicion())
+                .idVehiculo(posicionDTO.getIdVehiculo())
                 .fechaHora(posicionDTO.getFechaHora())
                 .latitud(posicionDTO.getLatitud())
                 .longitud(posicionDTO.getLongitud())

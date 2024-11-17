@@ -25,4 +25,5 @@ public class PruebaDTO {
     LocalDateTime fechaHoraInicio;
     LocalDateTime fechaHoraFin;
     String comentarios;
+    Boolean infraccion;
 }

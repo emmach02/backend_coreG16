@@ -30,4 +30,9 @@ public class VehiculoService {
                 .map(VehiculoMapper::toDTO)
                 .toList();
     }
+
+    //Función para verificar la existencia de un vehículo por ID
+    public Boolean existeVehiculo(Integer idVehículo) {
+        return vehiculoRepository.existsById(idVehículo);
+    }
 }

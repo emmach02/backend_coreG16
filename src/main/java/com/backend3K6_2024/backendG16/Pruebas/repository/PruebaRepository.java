@@ -12,5 +12,6 @@ import java.util.Vector;
 public interface PruebaRepository extends  JpaRepository<Prueba, Integer>{
     List<Prueba> findPruebasByVehiculo(Vehiculo vehiculo);
     List<Prueba> findByFechaHoraFinIsNull();
+    Prueba findByVehiculoAndFechaHoraFinIsNull(Vehiculo vehiculo);
 }
 

@@ -41,4 +41,7 @@ public class Prueba {
 
     @Column(name = "comentarios")
     private String comentarios;
+
+    @Column(name = "infraccion")
+    private Boolean infraccion;
 }

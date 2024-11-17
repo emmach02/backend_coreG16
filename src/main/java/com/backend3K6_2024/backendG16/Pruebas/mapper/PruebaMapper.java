@@ -14,6 +14,7 @@ public class PruebaMapper {
                 .fechaHoraInicio(prueba.getFechaHoraInicio())
                 .fechaHoraFin(prueba.getFechaHoraFin())
                 .comentarios(prueba.getComentarios())
+                .infraccion(prueba.getInfraccion())
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class PruebaMapper {
             .fechaHoraInicio(pruebaDTO.getFechaHoraInicio())
             .fechaHoraFin(pruebaDTO.getFechaHoraFin())
             .comentarios(pruebaDTO.getComentarios())
+            .infraccion(pruebaDTO.getInfraccion())
             .build();
     }
 }

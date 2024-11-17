@@ -4,6 +4,8 @@ import com.backend3K6_2024.backendG16.Empleados.entity.Empleado;
 import com.backend3K6_2024.backendG16.Empleados.repository.EmpleadoRepository;
 import com.backend3K6_2024.backendG16.Interesados.entity.Interesado;
 import com.backend3K6_2024.backendG16.Interesados.repository.InteresadoRepository;
+import com.backend3K6_2024.backendG16.Posiciones.entity.Posicion;
+import com.backend3K6_2024.backendG16.Posiciones.repository.PosicionRepository;
 import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaDTO;
 import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import com.backend3K6_2024.backendG16.Pruebas.repository.PruebaRepository;
@@ -40,6 +42,8 @@ public class PruebaService {
     private VehiculoRepository vehiculoRepository;
     @Autowired
     private EmpleadoRepository empleadoRepository;
+    @Autowired
+    private PosicionRepository posicionRepository;
 
     //-METODOS GET-
     public List<PruebaDTO> getAll(){
@@ -56,6 +60,16 @@ public class PruebaService {
         return pruebas.stream()
                 .map(PruebaMapper::toDTO)
                 .toList();
+    }
+
+    //Get PRUEBA en curso para un vehículo
+    public PruebaDTO getPruebaEnCurso(Integer idVehiculo){
+        //Traemos el Vehículo al que estamos creando la posición
+        Vehiculo vehiculo = vehiculoRepository.findById(idVehiculo).get();
+        //Buscamos la prueba de dicho vehiculo, siempre y cuando tenga fechaFin = null
+        Prueba prueba = pruebaRepository.findByVehiculoAndFechaHoraFinIsNull(vehiculo);
+        //Ahora terminamos de mapear la entidad a DTO
+        return PruebaMapper.toDTO(prueba);
     }
 
     //-METODOS POST-
@@ -85,7 +99,9 @@ public class PruebaService {
             }
         }
 
-        //Validamos el vehiculo si está disponible o no
+        //Validamos el vehiculo si está disponible o no, para ello vemos TODAS las pruebas de cierto
+        //vehículo y nos fijamos si es que tiene alguna con fechaFin = null, si no lo tiene entonces el mismo
+        //tiene una prueba en curso
         List<Prueba> pruebasDelVehiculo = pruebaRepository.findPruebasByVehiculo(vehiculo.get());
         if (!pruebasDelVehiculo.isEmpty()) {
             for (Prueba prueba : pruebasDelVehiculo) {
@@ -96,14 +112,28 @@ public class PruebaService {
             }
         }
 
+        //Creo la prueba
+
+        LocalDateTime fechaActual = LocalDateTime.now();
+
         Prueba prueba = new Prueba();
         prueba.setInteresado(interesado);
         prueba.setEmpleado(empleado.get());
         prueba.setVehiculo(vehiculo.get());
-        prueba.setFechaHoraInicio(LocalDateTime.now());
+        prueba.setFechaHoraInicio(fechaActual);
+        prueba.setInfraccion(false);
         pruebaRepository.save(prueba);
-        return PruebaMapper.toDTO(prueba);
 
+        //Le "seteo" la posición incial, es decir la prueba siempre arranca desde la agencia
+        Posicion posicion = new Posicion();
+        posicion.setFechaHora(fechaActual);
+        posicion.setIdVehiculo(vehiculo.get().getId());
+        //Posiciones de la agencia....
+        posicion.setLatitud(42.50);
+        posicion.setLongitud(1.53);
+        posicionRepository.save(posicion);
+
+        return PruebaMapper.toDTO(prueba);
     }
 
     // Métodos PUT
