@@ -41,6 +41,7 @@ public class PosicionService {
     private VehiculoService vehiculoService;
 
     private final RestTemplate restTemplate;
+
     @Autowired
     private VehiculoRepository vehiculoRepository;
     @Autowired
@@ -51,6 +52,7 @@ public class PosicionService {
     private InteresadoRepository interesadoRepository;
 
     @Autowired
+    //Inyeccion de dep el autowired no me funcionaba
     public PosicionService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -60,6 +62,7 @@ public class PosicionService {
 
     @Value("${notificaciones_url}")
     private String notificacionesUrl;
+
 
     //Métodos GET
 
@@ -142,7 +145,6 @@ public class PosicionService {
             //marcar al interesado como restringido
             interesado.setRestringido(true);
             interesadoRepository.save(interesado);
-            //TODO ENVIAR NOTIFICACION AL EMPLEADO QUE DICHO INTERESADO TUVO UN INCIDENTE - VAMOS A PROBAR
             //Armo la notificación
             String texto = "Se informó una incidente durante la prueba, exigir el retorno inmediato.";
             NotificacionInfDTO notificacion = new NotificacionInfDTO(
@@ -157,7 +159,7 @@ public class PosicionService {
 
         //Funciones extras
 
-    //llamada al endopint de notificaciones del microservicio de notificaciones
+    //llamada al endpoint de notificaciones del microservicio de notificaciones
     public void enviarNotificacion(NotificacionInfDTO notificacion) {
         //DEBUG
         //System.out.println(notificacionesUrl);

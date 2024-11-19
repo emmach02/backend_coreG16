@@ -16,6 +16,7 @@ import com.backend3K6_2024.backendG16.Vehiculos.repository.VehiculoRepository;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,12 +35,14 @@ import java.util.Optional;
 @Service
 public class ReporteService {
 
+    //Automáticamente hizo la inyección, no me usó @Autowired
     private final PruebaRepository pruebaRepository;
     private final EmpleadoRepository empleadoRepository;
     private final VehiculoRepository vehiculoRepository;
     private final PosicionService posicionService;
 
-    public ReporteService(PruebaRepository pruebaRepository, EmpleadoRepository empleadoRepository, VehiculoRepository vehiculoRepository, PosicionService posicionService) {
+    public ReporteService(PruebaRepository pruebaRepository, EmpleadoRepository empleadoRepository,
+                          VehiculoRepository vehiculoRepository, PosicionService posicionService) {
         this.pruebaRepository = pruebaRepository;
         this.empleadoRepository = empleadoRepository;
         this.vehiculoRepository = vehiculoRepository;
@@ -133,9 +136,9 @@ public class ReporteService {
         Double distanciaPrueba = 0.0;
         for (int i = 1; i < posicionesVehiculo.size(); i++) {
             //Posicion anterior
-            PosicionDTO pos1 = posicionesVehiculo.get( i - 1);
+            PosicionDTO pos1 = posicionesVehiculo.get(i - 1);
             //Posicion Actual
-            PosicionDTO pos2 = posicionesVehiculo.get(1);
+            PosicionDTO pos2 = posicionesVehiculo.get(i);
             //Cálculo de la diferencia de coordenadas
                 Coordenadas coorPos2 = new Coordenadas();
                 coorPos2.setLat(pos2.getLatitud());
@@ -155,7 +158,9 @@ public class ReporteService {
             e.printStackTrace();
         }
         //También retorna un string para mostrar en body
-        return ResponseEntity.ok("El vehículo "+idVehiculo+" ha recorrido "+ distanciaPrueba + "km de prueba" + "\n" +
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body("El vehículo "+idVehiculo+" ha recorrido "+ distanciaPrueba + "km de prueba" + "\n" +
                 "durante la fecha " + fechasDTO.getDesde().format(parseDate) + " hasta la fecha " +
                 fechasDTO.getHasta().format(parseDate) + "\n");
     }
