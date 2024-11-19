@@ -4,6 +4,7 @@ import com.backend3K6_2024.backendG16.Posiciones.DTO.FechasDTO;
 import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaDTO;
 import com.backend3K6_2024.backendG16.Pruebas.service.PruebaService;
 import com.backend3K6_2024.backendG16.Reportes.service.ReporteService;
+import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class ReporteController {
     @GetMapping("kilometros-vehiculo/{idVehiculo}")
     public ResponseEntity<String> kilometroVehiculo(
             @PathVariable Integer idVehiculo,
-            @RequestBody FechasDTO fechasDTO) throws NotFoundException {
+            @RequestBody FechasDTO fechasDTO) throws NotFoundException, BadRequestException {
         return reporteService.calcularKmPruebas(idVehiculo, fechasDTO);
     }
 }

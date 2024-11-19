@@ -86,7 +86,12 @@ public class PosicionService {
     //Obtener las posiciones de un vehículo en un rango de fechas ENTRE HASTA
     public List<PosicionDTO> getPosVehiculoPorFechas(
             @PathVariable Integer idVehiculo,
-            @RequestBody FechasDTO fechasDTO) throws NotFoundException {
+            @RequestBody FechasDTO fechasDTO) throws NotFoundException, BadRequestException {
+        //Validación que la fecha Desde no sea posterior a la fechas Hasta
+        if (fechasDTO.getDesde().isAfter(fechasDTO.getHasta())) {
+            throw new BadRequestException("La fecha DESDE no puede ser posterior a la fecha HASTA");
+        }
+
         List<PosicionDTO> posVehiculo = getPosDeVehiculo(idVehiculo);
         List<PosicionDTO> posDesdeHasta = new ArrayList<>();
         for (PosicionDTO posDTO : posVehiculo) {
@@ -117,6 +122,11 @@ public class PosicionService {
         if (!vehiculoService.existeVehiculo(posicionDTO.getIdVehiculo())) {
             throw new BadRequestException("El vehículo no existe");
         }
+        //Verificamos que el vehículo esté en una prueba en curso
+        PruebaDTO pruebaDTO = pruebaService.getPruebaEnCurso(posicionDTO.getIdVehiculo());
+        if(pruebaDTO == null) {
+            throw new BadRequestException("El vehículo no posee prueba en curso");
+        }
 
         //Creación de la posición con la hora actual
         posicionDTO.setFechaHora(LocalDateTime.now());
@@ -125,29 +135,24 @@ public class PosicionService {
 
         //Verifico si hubo infracción
         if (verificarInfraccion(posicionDTO)) {
-            PruebaDTO pruebaDTO = pruebaService.getPruebaEnCurso(posicionDTO.getIdVehiculo());
             Interesado interesado = pruebaDTO.getInteresado();
-            if (pruebaDTO == null) {
-                throw new BadRequestException("No existe el prueba en curso");
-            } else {
-                //si tiene prueba en curso, la marcamos como en infraccion
-                pruebaDTO.setInfraccion(true);
-                pruebaRepository.save(PruebaMapper.toEntity(pruebaDTO));
-                //marcar al interesado como restringido
-                interesado.setRestringido(true);
-                interesadoRepository.save(interesado);
-                //TODO ENVIAR NOTIFICACION AL EMPLEADO QUE DICHO INTERESADO TUVO UN INCIDENTE - VAMOS A PROBAR
-                //Armo la notificación
-                String texto = "Se informó una incidente durante la prueba, exigir el retorno inmediato.";
-                NotificacionInfDTO notificacion = new NotificacionInfDTO(
-                        pruebaDTO.getIdPrueba(),
-                        LocalDateTime.now(),
-                        texto,
-                        pruebaDTO.getEmpleado().getTelefonoContacto());
-                enviarNotificacion(notificacion);
+            //si tiene prueba en curso, la marcamos como en infraccion
+            pruebaDTO.setInfraccion(true);
+            pruebaRepository.save(PruebaMapper.toEntity(pruebaDTO));
+            //marcar al interesado como restringido
+            interesado.setRestringido(true);
+            interesadoRepository.save(interesado);
+            //TODO ENVIAR NOTIFICACION AL EMPLEADO QUE DICHO INTERESADO TUVO UN INCIDENTE - VAMOS A PROBAR
+            //Armo la notificación
+            String texto = "Se informó una incidente durante la prueba, exigir el retorno inmediato.";
+            NotificacionInfDTO notificacion = new NotificacionInfDTO(
+                    pruebaDTO.getIdPrueba(),
+                    LocalDateTime.now(),
+                    texto,
+                    pruebaDTO.getEmpleado().getTelefonoContacto());
+            enviarNotificacion(notificacion);
             }
-        }
-        return ResponseEntity.ok("OK");
+        return ResponseEntity.ok("OK, posición creada");
     }
 
         //Funciones extras
@@ -173,6 +178,8 @@ public class PosicionService {
 
         //Distancia Respecto de la Agencia
         Double distanciaResAgencia = calcularDistancia(posicionDTO, posApi.getCoordenadasAgencia());
+        //TODO COMENTAR, A MODO DE DEBUG
+        System.out.println("La distancia respecto de la agencias es " + distanciaResAgencia+ " km");
         //Mientras NO haya salido del radio y NO haya entrado en una zona
         //restringida, NO está en infracción.
         if (distanciaResAgencia > posApi.getRadioAdmitidoKm().doubleValue()

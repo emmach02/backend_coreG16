@@ -13,6 +13,7 @@ import com.backend3K6_2024.backendG16.Pruebas.mapper.PruebaMapper;
 import com.backend3K6_2024.backendG16.Pruebas.repository.PruebaRepository;
 import com.backend3K6_2024.backendG16.Vehiculos.entity.Vehiculo;
 import com.backend3K6_2024.backendG16.Vehiculos.repository.VehiculoRepository;
+import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -123,7 +125,7 @@ public class ReporteService {
         //Reporte 3
     public ResponseEntity<String> calcularKmPruebas(
             @RequestParam Integer idVehiculo,
-            @RequestBody FechasDTO fechasDTO) throws NotFoundException {
+            @RequestBody FechasDTO fechasDTO) throws NotFoundException, BadRequestException {
         //Traemos posiciones del vehiculo por fechas traidas en el body (json con fechas)
         List<PosicionDTO> posicionesVehiculo = posicionService.getPosVehiculoPorFechas(idVehiculo, fechasDTO);
         //Iteramos las posiciones de la lista, calculando la distancia del "punto" anterior con su siguiente hasta
@@ -142,7 +144,9 @@ public class ReporteService {
         }
 
         DateTimeFormatter parseDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
+        //Distancia truncas, tuve que crear una función capaz de truncar y lo general metiendole el num de decimales
+        distanciaPrueba = truncarDecimal(distanciaPrueba, 2);
+        //Función que intenta crear los reportes en txt.
         try (FileWriter arch = new FileWriter(reportesPath+"/distanciaKmVehiculo"+idVehiculo+".txt")) {
             arch.write("El vehículo" + idVehiculo + "ha recorrido" + distanciaPrueba + "km de prueba" + "\n" +
                     "durante la fecha " + fechasDTO.getDesde().format(parseDate) + " hasta la fecha " +
@@ -150,8 +154,8 @@ public class ReporteService {
         } catch (IOException e ){
             e.printStackTrace();
         }
-
-        return ResponseEntity.ok("El vehículo "+idVehiculo+" ha recorrido "+distanciaPrueba+ "km de prueba" + "\n" +
+        //También retorna un string para mostrar en body
+        return ResponseEntity.ok("El vehículo "+idVehiculo+" ha recorrido "+ distanciaPrueba + "km de prueba" + "\n" +
                 "durante la fecha " + fechasDTO.getDesde().format(parseDate) + " hasta la fecha " +
                 fechasDTO.getHasta().format(parseDate) + "\n");
     }
@@ -194,6 +198,20 @@ public class ReporteService {
             System.out.println("Reporte impreso con éxito");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public Double truncarDecimal(Double valor, Integer decimales) {
+        StringBuilder patron = new StringBuilder("#.");
+        for (int i = 0; i < decimales; i++) {
+            patron.append("#");
+        }
+        DecimalFormat formatoDecimal = new DecimalFormat(patron.toString());
+        String formateado = formatoDecimal.format(valor).replace(",",".");
+        try {
+            return Double.parseDouble(formateado);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Error al truncar el número: " + valor, e);
         }
     }
 }

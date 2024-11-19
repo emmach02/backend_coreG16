@@ -47,7 +47,7 @@ public class PosicionController {
     @GetMapping("entreFechas/{id}")
     public ResponseEntity<List<PosicionDTO>> getPosicionesEntreFechas(@PathVariable Integer id,
                                                                       @RequestBody FechasDTO fechasDTO)
-            throws NotFoundException {
+            throws NotFoundException, BadRequestException {
         List<PosicionDTO> posicionDTO = posicionService.getPosVehiculoPorFechas(id, fechasDTO);
         return ResponseEntity.ok(posicionDTO);
     }
