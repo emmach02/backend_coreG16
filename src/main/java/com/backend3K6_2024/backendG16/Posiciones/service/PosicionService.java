@@ -165,7 +165,7 @@ public class PosicionService {
     }
 
     //Servicio para verificar si el vehículo está o no en una posición restringida
-    private Boolean verificarInfraccion(PosicionDTO posicionDTO) {
+    public Boolean verificarInfraccion(PosicionDTO posicionDTO) {
         //Consumimos al api para traer el Objeto con posiciones de agencia, radio máximo y
         //coordenadas de zonas restringidas.
         PosicionesApiDTO posApi = consumirApi();
@@ -190,7 +190,7 @@ public class PosicionService {
         }
     }
 
-    private PosicionesApiDTO consumirApi() {
+    public PosicionesApiDTO consumirApi() {
         ResponseEntity<PosicionesApiDTO> response = restTemplate.exchange(
                 apiPosicionesUrl, HttpMethod.GET, null, PosicionesApiDTO.class
         );
@@ -202,7 +202,7 @@ public class PosicionService {
         }
     }
 
-    private Double calcularDistancia(PosicionDTO posicionDTO, Coordenadas coordenadas) {
+    public Double calcularDistancia(PosicionDTO posicionDTO, Coordenadas coordenadas) {
         double radioTierra = 6371; // Radio de la Tierra en kilómetros
         double dLat = Math.toRadians(posicionDTO.getLatitud() - coordenadas.getLat());
         double dLon = Math.toRadians(posicionDTO.getLongitud() - coordenadas.getLon());
@@ -215,7 +215,7 @@ public class PosicionService {
         return radioTierra * c;
     }
 
-    private Boolean dentroZonaRest(PosicionDTO posicionDTO, List<ZonaRestringidaDTO> listaZonasRestringidas) {
+    public Boolean dentroZonaRest(PosicionDTO posicionDTO, List<ZonaRestringidaDTO> listaZonasRestringidas) {
 
         //Latitud y longitud de la posicion
         Double posLatitud = posicionDTO.getLatitud();
