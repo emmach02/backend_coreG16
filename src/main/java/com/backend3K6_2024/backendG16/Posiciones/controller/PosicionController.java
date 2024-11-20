@@ -56,9 +56,9 @@ public class PosicionController {
     @PostMapping("/crearPosicion")
     public ResponseEntity<String> crearPosicion(@RequestBody PosicionDTO posicionDTO) {
         try {
-            //Crear-Recibir posición nueva del vehículo y por consiguiente, si es nueva
-            //hay que verificar si comete infracción (siempre es la última después de todo)
-            //Lo hago dentro del create
+            // Crear-Recibir posición nueva del vehículo y por consiguiente, si es nueva
+            // hay que verificar si comete infracción (siempre es la última después de todo)
+            // Lo hago dentro del create
             ResponseEntity<String> posDTO = posicionService.create(posicionDTO);
             return ResponseEntity.ok(posDTO.getBody());
         } catch (Exception e) {

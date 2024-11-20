@@ -122,7 +122,17 @@ public class PruebaService {
             }
         }
 
-        //Creo la prueba
+        // Validamos que no se pueda crear una prueba con un empleado que ya EL MISMO ya esta en otra prueba, seria ilogico!
+        List<Prueba> pruebasEmpleado = pruebaRepository.findPruebasByEmpleado(empleado);
+        if (!pruebasEmpleado.isEmpty()) {
+            for (Prueba prueba : pruebasEmpleado) {
+                if ((prueba.getFechaHoraFin() == null)) {
+                    throw new BadRequestException("El Empleado ya se encuentra en prueba");
+                }
+            }
+        }
+
+        //Creo la prueba y se guarda en la base de datos
         LocalDateTime fechaActual = LocalDateTime.now();
 
         Prueba prueba = new Prueba();

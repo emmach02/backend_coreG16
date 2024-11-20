@@ -1,5 +1,6 @@
 package com.backend3K6_2024.backendG16.Pruebas.repository;
 
+import com.backend3K6_2024.backendG16.Empleados.entity.Empleado;
 import com.backend3K6_2024.backendG16.Interesados.entity.Interesado;
 import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import com.backend3K6_2024.backendG16.Vehiculos.entity.Vehiculo;
@@ -16,5 +17,6 @@ public interface PruebaRepository extends  JpaRepository<Prueba, Integer>{
     Prueba findByVehiculoAndFechaHoraFinIsNull(Vehiculo vehiculo);
     List<Prueba> findByInfraccionTrue();
     List<Prueba> findPruebasByInteresado(Interesado interesado);
+    List<Prueba> findPruebasByEmpleado(Empleado empleado);
 }
 

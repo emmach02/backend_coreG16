@@ -184,7 +184,7 @@ public class PosicionService {
         //Consumimos al api para traer el Objeto con posiciones de agencia, radio máximo y
         //coordenadas de zonas restringidas.
         PosicionesApiDTO posApi = consumirApi();
-        System.out.println(posApi);
+        //System.out.println(posApi);
 
         //Distancia Respecto de la Agencia
         Double distanciaResAgencia = calcularDistancia(posicionDTO, posApi.getCoordenadasAgencia());
