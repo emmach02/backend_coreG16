@@ -1,0 +1,33 @@
+Pruebas resultantes con Incidente
+ID Prueba: 1
+Fecha Incio: 09-11-2024 18:57:03
+Fecha Fin: 11-11-2024 11:22:57
+Empleado: Germán Darín
+Interesado: Emmanuel Chaile
+Comentario: El usuario ingresó en una zona prohibida, se inhabilita petición de nuevas pruebas
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 2
+Fecha Incio: 09-11-2024 17:39:57
+Fecha Fin: 11-11-2024 11:20:34
+Empleado: Mario Pruebas
+Interesado: Emmanuel Chaile
+Comentario: El usuario no generó problemas, devuelto en perfecto estado
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 8
+Fecha Incio: 19-11-2024 02:17:20
+Fecha Fin: 19-11-2024 18:38:40
+Empleado: Ramiro David
+Interesado: Emmanuel Chaile
+Comentario: La cerramos para probar
+Vehículo: BAIC X35 5P 1,5 T CVT FASHION Patente: ZZ012FT
+----------------------------------------- 
+ID Prueba: 11
+Fecha Incio: 19-11-2024 18:48:25
+Fecha Fin: 19-11-2024 18:38:49
+Empleado: Mario Pruebas
+Interesado: Emmanuel PRUEBA2
+Comentario: Probamos cerrar la prueba, todo ok, rayon en la puerta izquierda
+Vehículo: Audi A4 4P 1,8 TFSI ATTRACTION MULTI Patente: ZZ111AA
+----------------------------------------- 

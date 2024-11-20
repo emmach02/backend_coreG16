@@ -105,7 +105,7 @@ public class ReporteService {
     }
 
         //Reporte IV
-    public List<PruebaDTO> getPruebasDeVehiculo(Integer idVehiculo) throws NotFoundException {
+    public ResponseEntity<List<PruebaDTO>> getPruebasDeVehiculo(Integer idVehiculo) throws NotFoundException {
         Optional<Vehiculo> vehiculoOpt = vehiculoRepository.findById(idVehiculo);
         if (vehiculoOpt.isPresent()) {
             //Traemos todas las pruebas para el vehiculo en particular
@@ -117,11 +117,11 @@ public class ReporteService {
             crearReporteTxt(pruebasVehiculo, encabezado, nombreArch);
 
             //Retornamos los objetos
-            return pruebasVehiculo.stream()
+            return ResponseEntity.ok(pruebasVehiculo.stream()
                     .map(PruebaMapper::toDTO)
-                    .toList();
+                    .toList());
         } else {
-            throw new NotFoundException("Vehiculo no existe");
+            return ResponseEntity.notFound().build();
         }
     }
 

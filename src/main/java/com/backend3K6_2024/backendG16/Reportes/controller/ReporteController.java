@@ -54,7 +54,7 @@ public class ReporteController {
     @GetMapping("pruebas-vehiculo/{idVehiculo}")
     public ResponseEntity<List<PruebaDTO>> pruebasDeVehiculo(
             @PathVariable Integer idVehiculo) throws NotFoundException {
-        List<PruebaDTO> pruebasVehiculo = reporteService.getPruebasDeVehiculo(idVehiculo);
+        List<PruebaDTO> pruebasVehiculo = reporteService.getPruebasDeVehiculo(idVehiculo).getBody();
         if (pruebasVehiculo.isEmpty()) {
             return ResponseEntity.noContent().build();
         } else {

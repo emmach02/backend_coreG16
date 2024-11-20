@@ -15,6 +15,7 @@ import com.backend3K6_2024.backendG16.Vehiculos.entity.Vehiculo;
 import com.backend3K6_2024.backendG16.Vehiculos.repository.VehiculoRepository;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
+import com.backend3K6_2024.backendG16.exceptions.ResourceNotFoundException;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -78,32 +79,30 @@ public class PruebaService {
     @Transactional
     public PruebaDTO create(@RequestBody PruebaRequestDTO pruebaRequestDTO) throws BadRequestException {
         //Traemos los vehiculos y empleados correspondientes, si no arroja excepcion
-        Optional<Vehiculo> vehiculo = vehiculoRepository.findById(pruebaRequestDTO.getIdVehiculo());
-        Optional<Empleado> empleado = empleadoRepository.findById(pruebaRequestDTO.getIdEmpleado());
-        if(empleado.isEmpty()) {
-            throw new BadRequestException("El empleado no existe");
-        }
-        if(vehiculo.isEmpty()) {
-            throw new BadRequestException("El vehiculo no existe");
-        }
+        Vehiculo vehiculo = vehiculoRepository.findById(pruebaRequestDTO.getIdVehiculo()).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("Vehiculo [%d] no encontrado", pruebaRequestDTO.getIdVehiculo()))
+        );
+
+        Empleado empleado = empleadoRepository.findById(pruebaRequestDTO.getIdEmpleado()).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("Empleado [%d] no encontrado", pruebaRequestDTO.getIdEmpleado()))
+        );
 
         //Verificado si existe el interesado, si existe verificamos licencia y si puede probar autos
-        Interesado interesado = interesadoRepository.findById(pruebaRequestDTO.getIdInteresado()).get();
-        if(interesado == null) {
-            throw new BadRequestException("No existe el interesado");
-        } else {
-            if (interesado.getFechaVencimientoLicencia().isBefore(LocalDateTime.now())) {
+        Interesado interesado = interesadoRepository.findById(pruebaRequestDTO.getIdInteresado()).orElseThrow(
+                () -> new ResourceNotFoundException(String.format("Interesado [%d] no encontrado ", pruebaRequestDTO.getIdInteresado()))
+        );
+
+        if (interesado.getFechaVencimientoLicencia().isBefore(LocalDateTime.now())) {
                 throw new BadRequestException("El interesado tiene la licencia vencida");
-            }
-            if (interesado.getRestringido()){
+        }
+        if (interesado.getRestringido()){
                 throw new BadRequestException("Interesado restringido, no puede probar vehiculos");
-            }
         }
 
         //Validamos el vehiculo si está disponible o no, para ello vemos TODAS las pruebas de cierto
         //vehículo y nos fijamos si es que tiene alguna con fechaFin = null, si no lo tiene entonces el mismo
         //tiene una prueba en curso
-        List<Prueba> pruebasDelVehiculo = pruebaRepository.findPruebasByVehiculo(vehiculo.get());
+        List<Prueba> pruebasDelVehiculo = pruebaRepository.findPruebasByVehiculo(vehiculo);
         if (!pruebasDelVehiculo.isEmpty()) {
             for (Prueba prueba : pruebasDelVehiculo) {
                 //La bbdd ahora acepta nulos, por lo que si no tiene fecha Fin indica que la prueba está en curso
@@ -113,14 +112,23 @@ public class PruebaService {
             }
         }
 
-        //Creo la prueba
+        //Validamos que un interesado no esté realizando dos pruebas al mismo tiempo
+        List<Prueba> pruebasInteresado = pruebaRepository.findPruebasByInteresado(interesado);
+        if (!pruebasInteresado.isEmpty()) {
+            for (Prueba prueba : pruebasInteresado) {
+                if ((prueba.getFechaHoraFin() == null)) {
+                    throw new BadRequestException("El interesado ya se encuentra en prueba");
+                }
+            }
+        }
 
+        //Creo la prueba
         LocalDateTime fechaActual = LocalDateTime.now();
 
         Prueba prueba = new Prueba();
         prueba.setInteresado(interesado);
-        prueba.setEmpleado(empleado.get());
-        prueba.setVehiculo(vehiculo.get());
+        prueba.setEmpleado(empleado);
+        prueba.setVehiculo(vehiculo);
         prueba.setFechaHoraInicio(fechaActual);
         prueba.setInfraccion(false);
         pruebaRepository.save(prueba);
@@ -128,7 +136,7 @@ public class PruebaService {
         //Le "seteo" la posición incial, es decir la prueba siempre arranca desde la agencia
         Posicion posicion = new Posicion();
         posicion.setFechaHora(fechaActual);
-        posicion.setIdVehiculo(vehiculo.get().getId());
+        posicion.setIdVehiculo(vehiculo.getId());
         //Posiciones de la agencia....
         posicion.setLatitud(42.50);
         posicion.setLongitud(1.53);
@@ -140,16 +148,19 @@ public class PruebaService {
     // Métodos PUT
     //Resulve el punto 1C
     @Transactional
-    public PruebaDTO finalizarPrueba(Integer pruebaId, String comentario) throws NotFoundException {
+    public PruebaDTO finalizarPrueba(Integer pruebaId, String comentario) throws NotFoundException, BadRequestException {
         Optional<Prueba> prueba = pruebaRepository.findById(pruebaId);
         if(prueba.isEmpty()) {
             throw new NotFoundException("No existe la prueba");
         }
-        
-        prueba.get().setFechaHoraFin(LocalDateTime.now());
-        prueba.get().setComentarios(comentario);
-        Prueba pruebaGuardada = pruebaRepository.save(prueba.get());
-        return PruebaMapper.toDTO(pruebaGuardada);
-    }
 
+        if(prueba.get().getFechaHoraFin() == null) {
+            prueba.get().setFechaHoraFin(LocalDateTime.now());
+            prueba.get().setComentarios(comentario);
+            Prueba pruebaGuardada = pruebaRepository.save(prueba.get());
+            return PruebaMapper.toDTO(pruebaGuardada);
+        } else {
+            throw new BadRequestException("La prueba ya finalizó");
+        }
+    }
 }

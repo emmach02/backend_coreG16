@@ -1,0 +1,9 @@
+Pruebas resultantes con Incidente del empleado Germán Darín
+ID Prueba: 1
+Fecha Incio: 09-11-2024 18:57:03
+Fecha Fin: 11-11-2024 11:22:57
+Empleado: Germán Darín
+Interesado: Emmanuel Chaile
+Comentario: El usuario ingresó en una zona prohibida, se inhabilita petición de nuevas pruebas
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 

@@ -123,12 +123,12 @@ public class PosicionService {
     public ResponseEntity<String> create(@RequestBody PosicionDTO posicionDTO) throws BadRequestException {
         //Verificar que el vehículo para el cual creamos una posición, exista.
         if (!vehiculoService.existeVehiculo(posicionDTO.getIdVehiculo())) {
-            throw new BadRequestException("El vehículo no existe");
+            return ResponseEntity.notFound().build();
         }
         //Verificamos que el vehículo esté en una prueba en curso
         PruebaDTO pruebaDTO = pruebaService.getPruebaEnCurso(posicionDTO.getIdVehiculo());
         if(pruebaDTO == null) {
-            throw new BadRequestException("El vehículo no posee prueba en curso");
+            ResponseEntity.badRequest().header("ERROR_MSG", "El vehículo no tiene prueba en curso").build();
         }
 
         //Creación de la posición con la hora actual
@@ -138,22 +138,30 @@ public class PosicionService {
 
         //Verifico si hubo infracción
         if (verificarInfraccion(posicionDTO)) {
+            //Asume que pruebaDTO es distinto de nulo y lo afirma con el assert
+            assert pruebaDTO != null;
             Interesado interesado = pruebaDTO.getInteresado();
-            //si tiene prueba en curso, la marcamos como en infraccion
-            pruebaDTO.setInfraccion(true);
-            pruebaRepository.save(PruebaMapper.toEntity(pruebaDTO));
-            //marcar al interesado como restringido
-            interesado.setRestringido(true);
-            interesadoRepository.save(interesado);
-            //Armo la notificación
-            String texto = "Se informó una incidente durante la prueba, exigir el retorno inmediato.";
-            NotificacionInfDTO notificacion = new NotificacionInfDTO(
-                    pruebaDTO.getIdPrueba(),
-                    LocalDateTime.now(),
-                    texto,
-                    pruebaDTO.getEmpleado().getTelefonoContacto());
-            enviarNotificacion(notificacion);
+
+            //Lógica de restrinccion se aplica por única vez, una vez restringido el usuario, no hace falta seguir seteando
+            //las restricciones.
+            if (!interesado.getRestringido()) {
+                String texto = "Se informó una incidente durante la prueba, exigir el retorno inmediato.";
+                NotificacionInfDTO notificacion = new NotificacionInfDTO(
+                        pruebaDTO.getIdPrueba(),
+                        LocalDateTime.now(),
+                        texto,
+                        pruebaDTO.getEmpleado().getTelefonoContacto());
+                System.out.println(notificacion);
+                enviarNotificacion(notificacion);
+
+                //si tiene prueba en curso, la marcamos como en infraccion
+                pruebaDTO.setInfraccion(true);
+                pruebaRepository.save(PruebaMapper.toEntity(pruebaDTO));
+                //marcar al interesado como restringido
+                interesado.setRestringido(true);
+                interesadoRepository.save(interesado);
             }
+        }
         return ResponseEntity.ok("OK, posición creada");
     }
 
@@ -162,7 +170,7 @@ public class PosicionService {
     //llamada al endpoint de notificaciones del microservicio de notificaciones
     public void enviarNotificacion(NotificacionInfDTO notificacion) {
         //DEBUG
-        //System.out.println(notificacionesUrl);
+        System.out.println(notificacionesUrl);
         try {
             String response = restTemplate.postForObject(notificacionesUrl, notificacion, String.class);
             System.out.println(response);

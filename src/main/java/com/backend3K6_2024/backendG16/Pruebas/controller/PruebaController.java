@@ -47,20 +47,22 @@ public class PruebaController {
     @PostMapping("/crearPrueba")
     public ResponseEntity<PruebaDTO> post(
             //TODO a requestBody
-            @RequestBody PruebaRequestDTO pruebaRequestDTO) {
-        try {
+            @RequestBody PruebaRequestDTO pruebaRequestDTO) throws BadRequestException {
+        return new ResponseEntity<>(pruebaService.create(pruebaRequestDTO), HttpStatus.CREATED);
+
+        /*try {
             PruebaDTO pruebaDTO1 = pruebaService.create(pruebaRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(pruebaDTO1);
         } catch (BadRequestException e){
             return ResponseEntity.badRequest().header("ERROR_MSG", e.getMessage()).build();
-        }
+        }*/
     }
 
     //Resuelve el punto c= Finalizar una prueba, permitiéndole al empleado agregar un comentario
     //sobre la misma.
     @PatchMapping("finalizar/{pruebaId}")
     public ResponseEntity<PruebaDTO> finalizarPrueba(
-            @PathVariable Integer pruebaId, @RequestBody ComentarioDTO comentarioDTO) throws NotFoundException {
+            @PathVariable Integer pruebaId, @RequestBody ComentarioDTO comentarioDTO) throws NotFoundException, BadRequestException {
         String comentario = comentarioDTO.getComentario();
         PruebaDTO pruebaFinalizada = pruebaService.finalizarPrueba(pruebaId, comentario);
         return ResponseEntity.ok(pruebaFinalizada);

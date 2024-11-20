@@ -1,0 +1,57 @@
+Pruebas ejecutadas para el vehículo id: 1
+ID Prueba: 1
+Fecha Incio: 09-11-2024 18:57:03
+Fecha Fin: 11-11-2024 11:22:57
+Empleado: Germán Darín
+Interesado: Emmanuel Chaile
+Comentario: El usuario ingresó en una zona prohibida, se inhabilita petición de nuevas pruebas
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 2
+Fecha Incio: 09-11-2024 17:39:57
+Fecha Fin: 11-11-2024 11:20:34
+Empleado: Mario Pruebas
+Interesado: Emmanuel Chaile
+Comentario: El usuario no generó problemas, devuelto en perfecto estado
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 3
+Fecha Incio: 16-11-2024 23:28:41
+Fecha Fin: 16-11-2024 23:51:26
+Empleado: Germán Darín
+Interesado: Emmanuel Chaile
+Comentario: El interesado se alejó del radio de la zona
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 4
+Fecha Incio: 16-11-2024 23:54:00
+Fecha Fin: 17-11-2024 01:19:43
+Empleado: Germán Darín
+Interesado: Emmanuel Chaile
+Comentario: El interesado se alejó del radio de la zona
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 5
+Fecha Incio: 17-11-2024 01:20:30
+Fecha Fin: 17-11-2024 01:48:56
+Empleado: Germán Darín
+Interesado: Emmanuel Chaile
+Comentario: El interesado se alejó del radio de la zona
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 6
+Fecha Incio: 17-11-2024 01:49:16
+Fecha Fin: 17-11-2024 02:07:55
+Empleado: Germán Darín
+Interesado: Emmanuel Chaile
+Comentario: El interesado se alejó del radio de la zona
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 7
+Fecha Incio: 17-11-2024 02:08:02
+Fecha Fin: 19-11-2024 02:16:32
+Empleado: Mario Pruebas
+Interesado: Emmanuel Chaile
+Comentario: La cerramos para probar
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
