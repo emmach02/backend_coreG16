@@ -161,7 +161,7 @@ public class PruebaService {
     public PruebaDTO finalizarPrueba(Integer pruebaId, String comentario) throws NotFoundException, BadRequestException {
         Optional<Prueba> prueba = pruebaRepository.findById(pruebaId);
         if(prueba.isEmpty()) {
-            throw new NotFoundException("No existe la prueba");
+            throw new ResourceNotFoundException(String.format("La prueba [%d] no existe", pruebaId));
         }
 
         if(prueba.get().getFechaHoraFin() == null) {
@@ -170,7 +170,7 @@ public class PruebaService {
             Prueba pruebaGuardada = pruebaRepository.save(prueba.get());
             return PruebaMapper.toDTO(pruebaGuardada);
         } else {
-            throw new BadRequestException("La prueba ya finalizó");
+            throw new BadRequestException(String.format("La prueba [%d] ya finalizó", pruebaId));
         }
     }
 }
