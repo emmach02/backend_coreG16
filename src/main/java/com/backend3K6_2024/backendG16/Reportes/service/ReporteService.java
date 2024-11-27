@@ -15,6 +15,7 @@ import com.backend3K6_2024.backendG16.Vehiculos.entity.Vehiculo;
 import com.backend3K6_2024.backendG16.Vehiculos.repository.VehiculoRepository;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
+import com.backend3K6_2024.backendG16.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -100,7 +101,7 @@ public class ReporteService {
                     .toList();
         } else {
             //Si no existe el legajo se lanza excepcion
-            throw new NotFoundException("Legajo de empleado no existe");
+            throw new ResourceNotFoundException("Legajo de empleado no existe");
         }
     }
 

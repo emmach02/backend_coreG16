@@ -16,6 +16,7 @@ import com.backend3K6_2024.backendG16.Vehiculos.repository.VehiculoRepository;
 import com.backend3K6_2024.backendG16.Vehiculos.service.VehiculoService;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
+import com.backend3K6_2024.backendG16.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -120,15 +121,15 @@ public class PosicionService {
     }
 
     //Métodos POST para posiciones
-    public ResponseEntity<String> create(@RequestBody PosicionDTO posicionDTO) throws BadRequestException {
+    public PosicionDTO create(@RequestBody PosicionDTO posicionDTO) throws BadRequestException {
         //Verificar que el vehículo para el cual creamos una posición, exista.
         if (!vehiculoService.existeVehiculo(posicionDTO.getIdVehiculo())) {
-            return ResponseEntity.notFound().build();
+            throw new ResourceNotFoundException(String.format("El vehículo [%d] no existe", posicionDTO.getIdVehiculo()));
         }
         //Verificamos que el vehículo esté en una prueba en curso
         PruebaDTO pruebaDTO = pruebaService.getPruebaEnCurso(posicionDTO.getIdVehiculo());
         if(pruebaDTO == null) {
-            ResponseEntity.badRequest().header("ERROR_MSG", "El vehículo no tiene prueba en curso").build();
+            throw new BadRequestException(String.format("El vehículo [%d] no tiene prueba en curso", posicionDTO.getIdVehiculo()));
         }
 
         //Creación de la posición con la hora actual
@@ -162,7 +163,7 @@ public class PosicionService {
                 interesadoRepository.save(interesado);
             }
         }
-        return ResponseEntity.ok("OK, posición creada");
+        return PosicionMapper.toDTO(posicion);
     }
 
         //Funciones extras
@@ -171,6 +172,7 @@ public class PosicionService {
     public void enviarNotificacion(NotificacionInfDTO notificacion) {
         //DEBUG
         System.out.println(notificacionesUrl);
+        //Manejo corresponde por ejemplo funcionas ternarias
         try {
             String response = restTemplate.postForObject(notificacionesUrl, notificacion, String.class);
             System.out.println(response);
@@ -189,7 +191,7 @@ public class PosicionService {
         //Distancia Respecto de la Agencia
         Double distanciaResAgencia = calcularDistancia(posicionDTO, posApi.getCoordenadasAgencia());
         //TODO COMENTAR, A MODO DE DEBUG
-        System.out.println("La distancia respecto de la agencias es " + distanciaResAgencia+ " km");
+        //System.out.println("La distancia respecto de la agencias es " + distanciaResAgencia+ " km");
         //Mientras NO haya salido del radio y NO haya entrado en una zona
         //restringida, NO está en infracción.
         if (distanciaResAgencia > posApi.getRadioAdmitidoKm().doubleValue()

@@ -31,3 +31,11 @@ Interesado: Emmanuel PRUEBA2
 Comentario: Probamos cerrar la prueba, todo ok, rayon en la puerta izquierda
 Vehículo: Audi A4 4P 1,8 TFSI ATTRACTION MULTI Patente: ZZ111AA
 ----------------------------------------- 
+ID Prueba: 14
+Fecha Incio: 19-11-2024 23:04:26
+Fecha Fin: 20-11-2024 18:18:51
+Empleado: Mario Pruebas
+Interesado: Emmanuel PRUEBA2
+Comentario: 
+Vehículo: Audi A4 4P 1,8 TFSI ATTRACTION MULTI Patente: ZZ111AA
+----------------------------------------- 

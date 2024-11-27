@@ -47,7 +47,7 @@ public class PruebaController {
     @PostMapping("/crearPrueba")
     public ResponseEntity<PruebaDTO> post(
             //TODO a requestBody
-            @RequestBody PruebaRequestDTO pruebaRequestDTO) throws BadRequestException {
+            @RequestBody PruebaRequestDTO pruebaRequestDTO) {
         return new ResponseEntity<>(pruebaService.create(pruebaRequestDTO), HttpStatus.CREATED);
 
         /*try {

@@ -53,16 +53,16 @@ public class PosicionController {
     }
 
     // Métodos POST de posición de vehículo
-    @PostMapping("/crearPosicion")
-    public ResponseEntity<String> crearPosicion(@RequestBody PosicionDTO posicionDTO) {
+    @PostMapping("/recibirPosicion")
+    public ResponseEntity<PosicionDTO> crearPosicion(@RequestBody PosicionDTO posicionDTO) throws BadRequestException {
         try {
             // Crear-Recibir posición nueva del vehículo y por consiguiente, si es nueva
             // hay que verificar si comete infracción (siempre es la última después de todo)
             // Lo hago dentro del create
-            ResponseEntity<String> posDTO = posicionService.create(posicionDTO);
-            return ResponseEntity.ok(posDTO.getBody());
+            PosicionDTO posDTO = posicionService.create(posicionDTO);
+            return new ResponseEntity<>(posDTO, HttpStatus.CREATED);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().header("ERROR_MSG", e.getMessage()).build();
+            throw new BadRequestException("Error durante la creación de la posicion, no posee prueba en curso");
         }
     }
 }

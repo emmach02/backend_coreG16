@@ -156,19 +156,18 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity handleBadRequestException(
-            BadRequestException e,
-            ServletWebRequest request
-    ) {
+            BadRequestException ex, WebRequest request)
+    {
 
-        String error = e.getMessage();
+        String error = ex.getMessage();
 
         ErrorEntity apiError = new ErrorEntity(
                 EXCEPTION_MESSAGE,
-                "(Custom)BadRequestException (@ExceptionHandler)",
+                "(Custom)BadRequestException @(ExceptionHandler)",
                 null,
                 HttpStatus.BAD_REQUEST,
-                request.getRequest().getRequestURI(),
-                e.getLocalizedMessage(),
+                ((ServletWebRequest)request).getRequest().getRequestURI(),
+                ex.getLocalizedMessage(),
                 error
         );
 

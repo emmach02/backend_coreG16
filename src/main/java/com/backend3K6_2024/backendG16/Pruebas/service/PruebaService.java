@@ -70,14 +70,17 @@ public class PruebaService {
         Vehiculo vehiculo = vehiculoRepository.findById(idVehiculo).get();
         //Buscamos la prueba de dicho vehiculo, siempre y cuando tenga fechaFin = null
         Prueba prueba = pruebaRepository.findByVehiculoAndFechaHoraFinIsNull(vehiculo);
-        //Ahora terminamos de mapear la entidad a DTO
-        return PruebaMapper.toDTO(prueba);
+        if (prueba == null) {
+            throw new ResourceNotFoundException("Prueba en curso no encontrada");
+        } else {
+            return PruebaMapper.toDTO(prueba);
+        }
     }
 
     //-METODOS POST-
     //Resuelve el punto 1A
     @Transactional
-    public PruebaDTO create(@RequestBody PruebaRequestDTO pruebaRequestDTO) throws BadRequestException {
+    public PruebaDTO create(@RequestBody PruebaRequestDTO pruebaRequestDTO) {
         //Traemos los vehiculos y empleados correspondientes, si no arroja excepcion
         Vehiculo vehiculo = vehiculoRepository.findById(pruebaRequestDTO.getIdVehiculo()).orElseThrow(
                 () -> new ResourceNotFoundException(String.format("Vehiculo [%d] no encontrado", pruebaRequestDTO.getIdVehiculo()))
