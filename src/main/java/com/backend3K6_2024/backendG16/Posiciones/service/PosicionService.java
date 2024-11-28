@@ -76,21 +76,21 @@ public class PosicionService {
     }
 
     //Obtener las posiciones de un vehículo
-    public List<PosicionDTO> getPosDeVehiculo(Integer idVehiculo) throws NotFoundException {
+    public List<PosicionDTO> getPosDeVehiculo(Integer idVehiculo) {
         if (vehiculoService.existeVehiculo(idVehiculo)) {
             List<Posicion> posVehiculo = posicionRepository.findAllByIdVehiculo(idVehiculo);
             return posVehiculo.stream()
                     .map(PosicionMapper::toDTO)
                     .toList();
         } else {
-            throw new NotFoundException("No existe vehículo");
+            throw new ResourceNotFoundException("No existe vehículo");
         }
     }
 
     //Obtener las posiciones de un vehículo en un rango de fechas ENTRE HASTA
-    public List<PosicionDTO> getPosVehiculoPorFechas(
+    public List<PosicionDTO> getPosVehiculoPorFechas (
             @PathVariable Integer idVehiculo,
-            @RequestBody FechasDTO fechasDTO) throws NotFoundException, BadRequestException {
+            @RequestBody FechasDTO fechasDTO) {
         //Validación que la fecha Desde no sea posterior a la fechas Hasta
         if (fechasDTO.getDesde().isAfter(fechasDTO.getHasta())) {
             throw new BadRequestException("La fecha DESDE no puede ser posterior a la fecha HASTA");

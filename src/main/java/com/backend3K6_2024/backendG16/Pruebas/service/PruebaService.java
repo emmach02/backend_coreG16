@@ -161,7 +161,7 @@ public class PruebaService {
     // Métodos PUT
     //Resulve el punto 1C
     @Transactional
-    public PruebaDTO finalizarPrueba(Integer pruebaId, String comentario) throws NotFoundException, BadRequestException {
+    public PruebaDTO finalizarPrueba(Integer pruebaId, String comentario) {
         Optional<Prueba> prueba = pruebaRepository.findById(pruebaId);
         if(prueba.isEmpty()) {
             throw new ResourceNotFoundException(String.format("La prueba [%d] no existe", pruebaId));

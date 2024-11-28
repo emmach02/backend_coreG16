@@ -11,6 +11,7 @@ import com.backend3K6_2024.backendG16.Pruebas.DTO.PruebaDTO;
 import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import com.backend3K6_2024.backendG16.Pruebas.mapper.PruebaMapper;
 import com.backend3K6_2024.backendG16.Pruebas.repository.PruebaRepository;
+import com.backend3K6_2024.backendG16.Reportes.DTO.ReporteDTO;
 import com.backend3K6_2024.backendG16.Vehiculos.entity.Vehiculo;
 import com.backend3K6_2024.backendG16.Vehiculos.repository.VehiculoRepository;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
@@ -72,7 +73,7 @@ public class ReporteService {
     }
 
         //Reporte II - Pruebas con incidente para un empleado
-    public List<PruebaDTO> getIncidentesDeEmp(Integer idEmpleado) throws NotFoundException {
+    public List<PruebaDTO> getIncidentesDeEmp(Integer idEmpleado) {
         //Primero verificamos que exista el ID del empleado que ingresamos en el request
         Optional<Empleado> empleadoOpt = empleadoRepository.findById(idEmpleado);
         if (empleadoOpt.isPresent()) {
@@ -106,7 +107,7 @@ public class ReporteService {
     }
 
         //Reporte IV
-    public ResponseEntity<List<PruebaDTO>> getPruebasDeVehiculo(Integer idVehiculo) throws NotFoundException {
+    public ResponseEntity<List<PruebaDTO>> getPruebasDeVehiculo(Integer idVehiculo) {
         Optional<Vehiculo> vehiculoOpt = vehiculoRepository.findById(idVehiculo);
         if (vehiculoOpt.isPresent()) {
             //Traemos todas las pruebas para el vehiculo en particular
@@ -127,9 +128,9 @@ public class ReporteService {
     }
 
         //Reporte 3
-    public ResponseEntity<String> calcularKmPruebas(
+    public ReporteDTO calcularKmPruebas (
             @RequestParam Integer idVehiculo,
-            @RequestBody FechasDTO fechasDTO) throws NotFoundException, BadRequestException {
+            @RequestBody FechasDTO fechasDTO) throws BadRequestException {
         //Traemos posiciones del vehiculo por fechas traidas en el body (json con fechas)
         List<PosicionDTO> posicionesVehiculo = posicionService.getPosVehiculoPorFechas(idVehiculo, fechasDTO);
         //Iteramos las posiciones de la lista, calculando la distancia del "punto" anterior con su siguiente hasta
@@ -159,11 +160,11 @@ public class ReporteService {
             e.printStackTrace();
         }
         //También retorna un string para mostrar en body
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body("El vehículo "+idVehiculo+" ha recorrido "+ distanciaPrueba + "km de prueba" + "\n" +
+        ReporteDTO reporte = new ReporteDTO();
+        reporte.setReporte("El vehículo "+ idVehiculo + " ha recorrido "+ distanciaPrueba + "km de prueba" + "\n" +
                 "durante la fecha " + fechasDTO.getDesde().format(parseDate) + " hasta la fecha " +
                 fechasDTO.getHasta().format(parseDate) + "\n");
+        return reporte;
     }
 
     //Funciones Extras para reportes

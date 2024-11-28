@@ -8,9 +8,11 @@ import com.backend3K6_2024.backendG16.Pruebas.entity.Prueba;
 import com.backend3K6_2024.backendG16.Pruebas.service.PruebaService;
 import com.backend3K6_2024.backendG16.exceptions.BadRequestException;
 import com.backend3K6_2024.backendG16.exceptions.NotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,9 +47,8 @@ public class PruebaController {
     //siendo probado en ese mismo momento.
 
     @PostMapping("/crearPrueba")
-    public ResponseEntity<PruebaDTO> post(
-            //TODO a requestBody
-            @RequestBody PruebaRequestDTO pruebaRequestDTO) {
+    public ResponseEntity<PruebaDTO> post(@Valid @RequestBody PruebaRequestDTO pruebaRequestDTO) {
+
         return new ResponseEntity<>(pruebaService.create(pruebaRequestDTO), HttpStatus.CREATED);
 
         /*try {
@@ -58,11 +59,12 @@ public class PruebaController {
         }*/
     }
 
+
     //Resuelve el punto c= Finalizar una prueba, permitiéndole al empleado agregar un comentario
     //sobre la misma.
     @PatchMapping("finalizar/{pruebaId}")
     public ResponseEntity<PruebaDTO> finalizarPrueba(
-            @PathVariable Integer pruebaId, @RequestBody ComentarioDTO comentarioDTO) throws NotFoundException, BadRequestException {
+            @Valid @PathVariable Integer pruebaId, @RequestBody ComentarioDTO comentarioDTO) {
         String comentario = comentarioDTO.getComentario();
         PruebaDTO pruebaFinalizada = pruebaService.finalizarPrueba(pruebaId, comentario);
         return ResponseEntity.ok(pruebaFinalizada);
