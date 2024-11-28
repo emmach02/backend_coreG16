@@ -7,3 +7,19 @@ Interesado: Emmanuel Chaile
 Comentario: La cerramos para probar
 Vehículo: BAIC X35 5P 1,5 T CVT FASHION Patente: ZZ012FT
 ----------------------------------------- 
+ID Prueba: 19
+Fecha Incio: 27-11-2024 22:15:21
+Fecha Fin: 27-11-2024 22:25:51
+Empleado: Ramiro David
+Interesado: Emmanuel Chaile
+Comentario: La cerramos para probar
+Vehículo: BAIC X35 5P 1,5 T CVT FASHION Patente: ZZ012FT
+----------------------------------------- 
+ID Prueba: 20
+Fecha Incio: 27-11-2024 22:27:45
+Fecha Fin: Prueba en curso en este momento
+Empleado: Ramiro David
+Interesado: Emmanuel Chaile
+Comentario: Sin carga por el momento
+Vehículo: Citröen C3 Aircross 5P 1,6 16V SEGURIDAD Patente: ZZ444AA
+----------------------------------------- 

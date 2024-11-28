@@ -49,9 +49,25 @@ Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
 ----------------------------------------- 
 ID Prueba: 7
 Fecha Incio: 17-11-2024 02:08:02
-Fecha Fin: 19-11-2024 02:16:32
+Fecha Fin: 19-11-2024 18:38:29
 Empleado: Mario Pruebas
 Interesado: Emmanuel Chaile
 Comentario: La cerramos para probar
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 16
+Fecha Incio: 20-11-2024 09:21:28
+Fecha Fin: 20-11-2024 22:41:45
+Empleado: Mario Pruebas
+Interesado: Emmanuel Chaile
+Comentario: 
+Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
+----------------------------------------- 
+ID Prueba: 17
+Fecha Incio: 20-11-2024 22:43:20
+Fecha Fin: 21-11-2024 13:02:01
+Empleado: Mario Pruebas
+Interesado: Emmanuel Chaile
+Comentario: 
 Vehículo: Alfa Romeo 147 5P 2,0 TS DISTINCTIVE Patente: ZZ000ZZ
 ----------------------------------------- 
